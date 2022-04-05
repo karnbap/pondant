@@ -8,6 +8,7 @@ class OnboardingPage extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: OnBoard(
         pageController: _pageController,
         // Either Provide onSkip Callback or skipButton Widget to handle skip state
