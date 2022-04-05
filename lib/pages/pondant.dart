@@ -1,8 +1,11 @@
+import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pondant/pages/HomePage.dart';
 import 'package:pondant/pages/qnaPage.dart';
 import 'package:pondant/pages/tutorFeedPage.dart';
+
+import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 
 class Pondant extends StatefulWidget {
   const Pondant({Key? key}) : super(key: key);
@@ -12,65 +15,93 @@ class Pondant extends StatefulWidget {
 }
 
 class _PondantState extends State<Pondant> {
-  int currentIndex = 0;
+  final Color navigationBarColor = Colors.white;
+
+  int selectedIndex = 0;
+  late PageController pageController;
+  @override
+  void initState() {
+    super.initState();
+    pageController = PageController(initialPage: selectedIndex);
+  }
 
   @override
   Widget build(BuildContext context) {
-    print(currentIndex);
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text('Hello 퐁당'),
+    /// [AnnotatedRegion<SystemUiOverlayStyle>] only for android black navigation bar. 3 button navigation control (legacy)
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        systemNavigationBarColor: navigationBarColor,
+        systemNavigationBarIconBrightness: Brightness.dark,
       ),
-      body: IndexedStack(
-        index: currentIndex, // index 순서에 해당하는 child를 맨 위에 보여줌
-        children: const [
-          HomePage(),
-          TutorFeedPage(),
-          QNAPage(),
-        ],
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(30), topLeft: Radius.circular(30)),
-          boxShadow: [
-            BoxShadow(color: Colors.blueGrey, spreadRadius: 0, blurRadius: 1),
+      child: Scaffold(
+        backgroundColor: Colors.blue[200],
+        body: PageView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: pageController,
+          children: <Widget>[
+            Container(
+              alignment: Alignment.center,
+              child: Icon(
+                Icons.home,
+                size: 56,
+                color: Colors.amber[400],
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: Icon(
+                Icons.favorite_rounded,
+                size: 56,
+                color: Colors.red[400],
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: Icon(
+                Icons.email_rounded,
+                size: 56,
+                color: Colors.green[400],
+              ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              child: Icon(
+                Icons.person_pin,
+                size: 56,
+                color: Colors.blue[400],
+              ),
+            ),
           ],
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30.0),
-            topRight: Radius.circular(30.0),
-          ),
-          child: BottomNavigationBar(
-            currentIndex: currentIndex,
-            onTap: (newIndex) {
-              print("selected newIndex : $newIndex");
+        bottomNavigationBar: ClipRRect(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+          child: WaterDropNavBar(
+            backgroundColor: navigationBarColor,
+            onItemSelected: (int index) {
               setState(() {
-                currentIndex = newIndex;
+                selectedIndex = index;
               });
+              pageController.animateToPage(selectedIndex,
+                  duration: const Duration(milliseconds: 400),
+                  curve: Curves.easeOutQuad);
             },
-            backgroundColor: Colors.blueGrey,
-            selectedItemColor: Colors.blue[200], // 선택된 아이콘 색상
-            unselectedItemColor: Colors.white, // 선택되지 않은 아이콘 색상
-            showSelectedLabels: true, // 선택된 항목 label 숨기기
-            showUnselectedLabels: true, // 선택되지 않은 항목 label 숨기기
-            type: BottomNavigationBarType.fixed, // 선택시 아이콘 움직이지 않기
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home_filled),
-                label: "홈",
+            selectedIndex: selectedIndex,
+            barItems: <BarItem>[
+              BarItem(
+                filledIcon: Icons.home,
+                outlinedIcon: Icons.home_outlined,
               ),
-              BottomNavigationBarItem(
-                icon: Icon(CupertinoIcons.person_3),
-                label: "튜터",
+              BarItem(
+                  filledIcon: Icons.emoji_people,
+                  outlinedIcon: Icons.emoji_people_outlined),
+              BarItem(
+                filledIcon: Icons.message,
+                outlinedIcon: Icons.message_outlined,
               ),
-              BottomNavigationBarItem(
-                icon: Icon(CupertinoIcons.question_circle),
-                label: "Q&A",
+              BarItem(
+                filledIcon: Icons.person_pin,
+                outlinedIcon: Icons.person_pin_outlined,
               ),
-              // BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: ""),
             ],
           ),
         ),
