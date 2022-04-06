@@ -91,9 +91,6 @@ class _PondantState extends State<Pondant> {
               setState(() {
                 selectedIndex = newIndex;
               });
-              pageController.animateToPage(selectedIndex,
-                  duration: const Duration(milliseconds: 400),
-                  curve: Curves.easeOutQuad);
             },
             selectedIndex: selectedIndex,
             barItems: <BarItem>[

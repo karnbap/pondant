@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+// import 'package:smart_grid_view/smart_grid_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -51,7 +52,6 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    /// Frequency
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 2,
@@ -148,7 +148,21 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
 
-                    SizedBox(height: 20),
+                    //   SizedBox(height: 20),
+                    //   Padding(
+                    //     padding: const EdgeInsets.all(8.0),
+                    //     child: SmartGridView(
+                    //       tileWidth: 128,
+                    //       tileHeight: 168,
+                    //       children: List.generate(
+                    //           80,
+                    //           (index) => Card(
+                    //                 child: GridTile(
+                    //                   child: Text('tile #$index'),
+                    //                 ),
+                    //               )),
+                    //     ),
+                    //   )
                   ],
                 ),
               ),

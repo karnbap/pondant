@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboard/flutter_onboard.dart';
-import 'package:introduction_screen/introduction_screen.dart';
+// import 'package:introduction_screen/introduction_screen.dart';
 import 'package:pondant/pages/pondant.dart';
 
 class OnboardingPage extends StatelessWidget {
